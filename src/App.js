@@ -1,24 +1,39 @@
-import logo from './logo.svg';
+import React, {useReducer} from 'react'
 import './App.css';
+import CompA from './components/CompA';
+import CompB from './components/CompB';
+import CompC from './components/CompC';
+
+export const CountContext = React.createContext()
+
+const initialCount= 1
+
+const reducer=(state,action)=>{
+  switch(action){
+    case 'increment':
+      return state +1 
+    case 'decrement':
+      return state -1
+    case 'reset':
+      return initialCount
+    default:
+      return state
+  }
+}
 
 function App() {
+  const [Newcount,dispatch]= useReducer(reducer, initialCount)
   return (
+  <>
+    <CountContext.Provider value={{countVal:Newcount, Dispatch:dispatch}}>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Count- {Newcount}</h1>
+      <CompA/>
+      <CompB/>
+      <CompC/>
     </div>
+    </CountContext.Provider>
+  </>
   );
 }
 
